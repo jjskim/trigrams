@@ -1,4 +1,14 @@
 """."""
+import sys
+
+USAGE = """
+Usage: trigrams.py file_path num_words
+
+    Where file_path is required and should specify the path to a txt file
+    and num_words is required and should be an integer specifying the number
+    of maximum words to print.
+
+"""
 
 
 def create_word_list(file_path):
@@ -39,10 +49,21 @@ def create_new_text(trigrams_dict, num_words):
 
 def main(file_path, num_words):
     """."""
-    list_of_words = create_word_list(file_path)
-    trigrams_dict = populate_dictionary(list_of_words)
-    new_text = create_new_text(trigrams_dict, num_words)
+    try:
+        list_of_words = create_word_list(file_path)
+        trigrams_dict = populate_dictionary(list_of_words)
+        new_text = create_new_text(trigrams_dict, num_words)
+    except RuntimeError:
+        print("Try to keep the number of words under 1,000,000")
+        sys.exit(1)
+
     print(new_text)
+    sys.exit(0)
 
 
-main('test.txt', 100)
+if __name__ == '__main__':
+    if len(sys.argv) != 3:
+        print(USAGE)
+        sys.exit(1)
+
+    main(sys.argv[1], int(sys.argv[2]))
