@@ -1,4 +1,4 @@
-"""."""
+"""This module uses a trigram to create new text from existing text source."""
 import sys
 
 USAGE = """
@@ -12,7 +12,10 @@ Usage: trigrams.py file_path num_words
 
 
 def create_word_list(file_path):
-    """."""
+    """Function creates a list of words from a text file.
+    input: file_path of text file used to create trigram
+    output: list of words
+    """
     import io
     f = io.open(file_path, encoding='utf-8')
     string = f.read()
@@ -22,7 +25,9 @@ def create_word_list(file_path):
 
 
 def populate_dictionary(list_of_words):
-    """."""
+    """Function that takes in a list of words and creates a dictonary of key value
+    pairs.
+    """
     trigrams_dict = {}
     for i in range(len(list_of_words) - 2):
         trigrams_dict_keys = ' '.join(list_of_words[i:i + 2])
@@ -35,7 +40,9 @@ def populate_dictionary(list_of_words):
 
 
 def create_new_text(trigrams_dict, num_words):
-    """."""
+    """Function that concatenates new text from the trigrams dictionary until
+    the num_words condition is met.
+    """
     import random
     new_key = random.choice(list(trigrams_dict.keys()))
     new_text = new_key.capitalize()
@@ -48,7 +55,10 @@ def create_new_text(trigrams_dict, num_words):
 
 
 def main(file_path, num_words):
-    """."""
+    """
+    This is the main function that calls the other functions in
+    this module.  It then can stdout.write the text to a new file.
+    """
     try:
         list_of_words = create_word_list(file_path)
         trigrams_dict = populate_dictionary(list_of_words)
@@ -57,7 +67,7 @@ def main(file_path, num_words):
         print("Try to keep the number of words under 1,000,000")
         sys.exit(1)
 
-    print(new_text)
+    sys.stdout.write(new_text)
     sys.exit(0)
 
 
