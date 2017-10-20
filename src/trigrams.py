@@ -68,10 +68,9 @@ def main(file_path, num_words):
         sys.exit(1)
 
     sys.stdout.write(new_text)
-    sys.exit(0)
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no cover
     if len(sys.argv) != 3:
         print(USAGE)
         sys.exit(1)
