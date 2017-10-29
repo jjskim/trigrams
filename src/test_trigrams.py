@@ -18,15 +18,7 @@ def test_new_text_type():
     """Test if create_new_text returns a string."""
     d = {'This is': 'test'}
     from trigrams import create_new_text
-    assert type(create_new_text(d, 2)) == str
-
-
-def test_main(capfd):
-    """Test the main function and that it outputs."""
-    from trigrams import main
-    main('test_2.txt', 3)
-    out, err = capfd.readouterr()
-    assert out == 'This is test'
+    assert type(" ".join(create_new_text(d, 2))) == str
 
 
 def test_populate_dictionary():
@@ -38,3 +30,10 @@ def test_populate_dictionary():
                 'wish I': ['may', 'might']}
     s = ['I', 'wish', 'I', 'may', 'I', 'wish', 'I', 'might']
     assert populate_dictionary(s) == test_dic
+
+
+def test_num_words():
+    """."""
+    from trigrams import main
+    text = main('test.txt', 500)
+    assert len(text.split()) == 500

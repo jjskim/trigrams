@@ -1,1 +1,2 @@
 # trigrams
+This program takes in a text file, and creates new text from it. By creating a dictionary from that text with the key being a pair of sequential words and the value being the next word in the sequence. It builds new text by asserting two words and then looking for them in the key of the dictionary and then adding their value to the string and then repeating this process.

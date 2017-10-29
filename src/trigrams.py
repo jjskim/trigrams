@@ -1,5 +1,6 @@
 """This module uses a trigram to create new text from existing text source."""
 import sys
+import random
 
 USAGE = """
 Usage: trigrams.py file_path num_words
@@ -16,10 +17,8 @@ def create_word_list(file_path):
     input: file_path of text file used to create trigram
     output: list of words
     """
-    import io
-    f = io.open(file_path, encoding='utf-8')
-    string = f.read()
-    f.close()
+    with open(file_path, 'r') as file:
+        string = file.read()
     list_of_words = string.split()
     return list_of_words
 
@@ -43,15 +42,18 @@ def create_new_text(trigrams_dict, num_words):
     """Function that concatenates new text from the trigrams dictionary until
     the num_words condition is met.
     """
-    import random
     new_key = random.choice(list(trigrams_dict.keys()))
-    new_text = new_key.capitalize()
-    count = 2
-    while (new_key in list(trigrams_dict.keys()) and count < num_words):
-        new_text = new_text + " " + random.choice(trigrams_dict[new_key])
-        new_key = " ".join(new_text.split()[-2:])
-        count += 1
-    return new_text
+    new_text = new_key.capitalize().split()
+    text_length = len(new_text)
+    while text_length < num_words:
+        try:
+            new_text.append(random.choice(trigrams_dict[new_key]))
+            new_key = " ".join(new_text[-2:])
+            text_length = len(new_text)
+        except KeyError:
+            new_key = random.choice(list(trigrams_dict.keys()))
+            text_length = len(new_text)
+    return " ".join(new_text)
 
 
 def main(file_path, num_words):
@@ -63,6 +65,7 @@ def main(file_path, num_words):
         list_of_words = create_word_list(file_path)
         trigrams_dict = populate_dictionary(list_of_words)
         new_text = create_new_text(trigrams_dict, num_words)
+        return new_text
     except RuntimeError:
         print("Try to keep the number of words under 1,000,000")
         sys.exit(1)
@@ -75,4 +78,4 @@ if __name__ == '__main__':  # pragma: no cover
         print(USAGE)
         sys.exit(1)
 
-    main(sys.argv[1], int(sys.argv[2]))
+    print(main(sys.argv[1], int(sys.argv[2])))
